@@ -1,4 +1,5 @@
 const express = require('express');
+const Users = require('./users/userDb');
 // installed helmet; currently not using
 
 const server = express();
@@ -18,5 +19,8 @@ function logger(req, res, next) {
   );
   next();
 }
+
+
+
 
 module.exports = server;
