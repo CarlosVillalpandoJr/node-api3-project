@@ -21,6 +21,6 @@ function logger(req, res, next) {
 }
 
 
-
+server.use('/api/users', userRouter)
 
 module.exports = server;
