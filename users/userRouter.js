@@ -1,19 +1,39 @@
 const express = require('express');
 const router = express.Router();
-const Users = require('./users/userDb');
+const Users = require('./userDb')
 
 router.use(express.json());
 
 router.post('/', (req, res) => {
-  // do your magic!
+  const postBody = req.body;
+  if(postBody.title && postBody.contents) {
+    Users.insert(postBody)
+      .then(post => {
+        res.status(201).json(post)
+      })
+      .catch(error => {
+        res.status(500)
+          .json({ error: "There was an error while saving the post to the database" })
+      }) 
+  } else {
+    res.status(400)
+      .json({ errorMessage: "Provide title and contents for the post" })
+  }
 });
 
 router.post('/:id/posts', (req, res) => {
-  // do your magic!
+
 });
 
 router.get('/', (req, res) => {
-  // do your magic!
+  Users.get()
+    .then(users => {
+      res.status(200).json(users)
+    })
+    .catch(error => {
+      res.status(500)
+        .json({ error: "The user information could not be retrieved" })
+    })
 });
 
 router.get('/:id', (req, res) => {
