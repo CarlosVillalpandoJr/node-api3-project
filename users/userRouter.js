@@ -65,7 +65,7 @@ router.get('/:id/posts', validateUserId, (req, res) => {
     })
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateUserId, (req, res) => {
   Users.remove(req.params.id)
     .then(user => {
       res.status(200)
@@ -77,8 +77,21 @@ router.delete('/:id', (req, res) => {
     })
 });
 
-router.put('/:id', (req, res) => {
-  // do your magic!
+router.put('/:id', validateUserId, (req, res) => {
+  const id = req.params.id;
+  const userBody = req.body;
+  Users.update(id, userBody)
+    .then(user => {
+      if(user) {
+        res.status(200).json({ userBody })
+      } else {
+        res.status(404).json({ message: "User could not be found" })
+      }
+    })
+    .catch(error => {
+      res.status(500)
+        .json({ error: "User information could not be found" })
+    })
 });
 
 //custom middleware
