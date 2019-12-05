@@ -66,7 +66,15 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  // do your magic!
+  Users.remove(req.params.id)
+    .then(user => {
+      res.status(200)
+        .json({ message: "User was removed from the database" })
+    })
+    .catch(error => {
+      res.status(500)
+        .json({ error: "Could not remove user from the database" })
+    })
 });
 
 router.put('/:id', (req, res) => {
