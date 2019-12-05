@@ -1,6 +1,8 @@
 const express = require('express');
-
 const router = express.Router();
+const Users = require('./users/userDb');
+
+router.use(express.json());
 
 router.post('/', (req, res) => {
   // do your magic!
@@ -48,7 +50,7 @@ function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  // do your magic!
+  
 }
 
 function validatePost(req, res, next) {

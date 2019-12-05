@@ -1,5 +1,5 @@
 const express = require('express');
-const Users = require('./users/userDb');
+const userRouter = require('./users/userRouter');
 // installed helmet; currently not using
 
 const server = express();
