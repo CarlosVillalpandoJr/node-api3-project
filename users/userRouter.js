@@ -22,7 +22,7 @@ router.post('/', validateUser, (req, res) => {
 router.post('/:id/posts', validatePost, (req, res) => {
   const id = req.params.id;
   const postText = req.body.text;
-  Posts.insert({ text: postText, user_id: id })
+  Posts.insert({ user_id: id, text: postText })
     .then(post => {
       res.status(201).json(post)
     })
@@ -83,7 +83,7 @@ router.put('/:id', validateUserId, (req, res) => {
   Users.update(id, userBody)
     .then(user => {
       if(user) {
-        res.status(200).json({ userBody })
+        res.status(200).json({...userBody, ...user})
       } else {
         res.status(404).json({ message: "User could not be found" })
       }
@@ -129,9 +129,11 @@ function validatePost(req, res, next) {
   if(!postBody) {
     res.status(400)
       .json({ message: "missing post data" })
-  } else if(!postBody.text) {
+  } else if(postBody.text === "") {
     res.status(400)
       .json({ message: "missing required text field" })
+  } else {
+    next();
   }
 }
 
